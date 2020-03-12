@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="product.info.demo"
+                   before="product.info.details"
+                   template="Oleksandrr_Catalog::product/view/demo.phtml">
+
+                <block class="Oleksandrr\Catalog\Block\Product\View\Demo"
+                       name="product.info.demo.childBlock"
+                       as="product.info.demo.childBlock.alias"
+                       template="Oleksandrr_Catalog::product/view/demo/child_block.phtml">
+
+                    <arguments>
+                        <argument name="int_var" xsi:type="number">888</argument>
+                        <argument name="string_var" xsi:type="string">Some new text</argument>
+                        <argument name="view_model" xsi:type="object">Oleksandrr\Catalog\ViewModel\Product</argument>
+                    </arguments>
+                </block>
+
+            </block>
+
+
+        </referenceContainer>
+    </body>
+</page>

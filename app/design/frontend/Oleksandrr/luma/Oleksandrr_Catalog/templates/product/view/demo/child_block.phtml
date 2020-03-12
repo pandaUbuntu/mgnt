@@ -1,0 +1,24 @@
+<?php
+/** @var \Oleksandrr\Catalog\Block\Product\View\Demo $block */
+/** @var \Magento\Framework\View\TemplateEngine\Php $this */
+/** @var \Oleksandrr\Catalog\Helper\Product $productHelper */
+/** @var \Oleksandrr\Catalog\ViewModel\Product $viewModel */
+$viewModel = $block->getData('view_model');
+//$productHelper = $this->helper(\Oleksandrr\Catalog\Helper\Product::class);
+$categoryCollection = $viewModel->getProductCatagoriesCollection($block->getProduct());
+?>
+
+<p><?= $block->escapeHtml(__('Some text')) ?></p>
+<p><?= $block->escapeHtml(__('First value %1, second value %2', $block->getProductSalableQty(), $block->getProductName())) ?></p>
+<p><?= $block->escapeHtml(__('Int var: %1', $block->getIntVar())); ?></p>
+<p><?= $block->escapeHtml(__('String var: %1', $block->getStringVar())); ?></p>
+
+<?php  if ($categoryCollection->count()): ?>
+    <ul>
+        <?php foreach ($categoryCollection as $category): ?>
+            <li><?= $block->escapeHtml($category->getName()) ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+<p>Category empty</p>
+<?php endif; ?>

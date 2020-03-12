@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+<!--        <referenceBlock name="product.info.demo.childBlock" remove="true" />-->
+
+        <referenceBlock name="product.info.demo">
+            <block class="Oleksandrr\Catalog\Block\Product\View\Demo"
+                   name="product.info.demo.anotherChildBlock"
+                   as="product.info.demo.childBlock.alias"
+                   template="Oleksandrr_Catalog::product/view/demo/child_block.phtml">
+
+                <arguments>
+                    <argument name="int_var" xsi:type="number">999</argument>
+                    <argument name="string_var" xsi:type="string">Some second text</argument>
+                    <argument name="view_model" xsi:type="object">Oleksandrr\Catalog\ViewModel\Product</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
