@@ -3,18 +3,12 @@
     <body>
 <!--        <referenceBlock name="product.info.demo.childBlock" remove="true" />-->
 
-        <referenceBlock name="product.info.demo">
-            <block class="Oleksandrr\Catalog\Block\Product\View\Demo"
-                   name="product.info.demo.anotherChildBlock"
-                   as="product.info.demo.childBlock.alias"
-                   template="Oleksandrr_Catalog::product/view/demo/child_block.phtml">
-
-                <arguments>
-                    <argument name="int_var" xsi:type="number">999</argument>
-                    <argument name="string_var" xsi:type="string">Some second text</argument>
-                    <argument name="view_model" xsi:type="object">Oleksandrr\Catalog\ViewModel\Product</argument>
-                </arguments>
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="product.info.demo"
+                   before="product.info.details"
+                   template="Oleksandrr_Catalog::product/view/second_block.phtml">
             </block>
-        </referenceBlock>
+        </referenceContainer>
     </body>
 </page>
