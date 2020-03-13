@@ -244,7 +244,7 @@ return [
         'Magento_PaypalReCaptcha' => 1,
         'MSP_TwoFactorAuth' => 1,
         'Oleksandrr_Catalog' => 1,
-        'Oleksandrr_LayoutDebug' => 1,
+        'Oleksandrr_LayoutDebug' => 0,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1,
         'Yotpo_Yotpo' => 1
