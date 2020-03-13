@@ -1,0 +1,4 @@
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+
+<p><?= $block->escapeHtml(__('Full name: %1 %2', $block->getFirstName(), $block->getLastName())) ?></p>
+<p><?= $block->escapeHtml(__('Repository URL: %1', $block->getRepositoryUrl())) ?></p>

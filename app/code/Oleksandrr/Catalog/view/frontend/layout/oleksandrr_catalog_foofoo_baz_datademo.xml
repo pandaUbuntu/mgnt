@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page layout="2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   template="Oleksandrr_Catalog::data_demo.phtml"
+            >
+                <arguments>
+                    <argument name="first_name" xsi:type="string">Oleksandr</argument>
+                    <argument name="last_name" xsi:type="string">Radionov</argument>
+                    <argument name="repository_url" xsi:type="string">Some Url</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
