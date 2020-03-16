@@ -1,0 +1,15 @@
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<div id="oleksandrr-customer-preferences-sidebar"
+     style="display: none;"
+     data-mage-init='{"oleksandrr_customerPreferences_sidebar": {}}'
+>
+    <h3><?= $block->escapeHtml(__('My Preferences')) ?></h3>
+    <ul id="oleksandrr-customer-preferences-list"></ul>
+    <button type="button"
+            class="action primary"
+            id="oleksandrr-customer-preferences-edit-button"
+    ><?= $block->escapeHtml(__('Edit Preferences')) ?></button>
+    <button type="button"
+            id="oleksandrr-customer-preferences-close-sidebar-button"
+    ><?= $block->escapeHtml(__('Close')) ?></button>
+</div>
