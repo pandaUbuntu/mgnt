@@ -1,3 +1,9 @@
+@oleksandrr_chat-admin-message-background: #b2e2b1;
+@oleksandrr_chat-admin-message-border: #033d02;
+
+@oleksandrr_chat-user-message-background: #e2acb4;
+@oleksandrr_chat-user-message-border: #bf0007;
+
 & when (@media-common = true) {
     .oleksandrr-chat-open-button {
         background-color: @color-white;
@@ -25,11 +31,32 @@
         right: -360px;
         transition-property: right;
         transition-duration: .3s;
-        overflow-y: scroll;
         width: 300px;
 
         &.active {
             right: 0;
+        }
+
+        .oleksandrr-chat-message-field{
+            overflow-y: scroll;
+        }
+
+        .oleksandrr-chat-message{
+            border-radius: 25px;
+            padding-left: 10px;
+            border: 2px solid white;
+
+            &.oleksandrr-chat-user-message{
+                background-color: @oleksandrr_chat-user-message-background;
+                border-color: @oleksandrr_chat-user-message-border;
+                text-align: left;
+            }
+
+            &.oleksandrr-chat-admin-message{
+                background-color: @oleksandrr_chat-admin-message-background;
+                border-color: @oleksandrr_chat-admin-message-border;
+                text-align: left;
+            }
         }
     }
 
