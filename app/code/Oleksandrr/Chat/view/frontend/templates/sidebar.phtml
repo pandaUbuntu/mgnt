@@ -1,0 +1,20 @@
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<div id="oleksandrr-chat-window"
+     style="display: none;"
+     data-mage-init='{"oleksandrr_chat_sidebar": {}}'
+>
+    <h3><?= $block->escapeHtml(__('Chat with Admin')) ?></h3>
+
+    <div>
+        <div id="oleksandrr-chat-message-field">
+
+        </div>
+    </div>
+    <button type="button"
+            class="action primary"
+            id="oleksandrr-chat-edit-button"
+    ><?= $block->escapeHtml(__('Send message')) ?></button>
+    <button type="button"
+            id="oleksandrr-chat-window-close-button"
+    ><?= $block->escapeHtml(__('Close')) ?></button>
+</div>
