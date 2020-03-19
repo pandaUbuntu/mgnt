@@ -1,0 +1,42 @@
+& when (@media-common = true) {
+    .oleksandrr-luma-product-demo-block{
+        margin: 0 0 10px;
+        display: block;
+        font-size: 1.3rem;
+        background: #fae5e5;
+        color: #e02b27;
+        padding: 12px 20px 12px 45px;
+        position: relative;
+    }
+
+    .page-wrapper {
+        .page-main {
+            .product.data.items {
+                .data.item.title {
+                    &.active {
+                        .data.switch {
+                            background-color: @theme-custom__blue-color;
+                        }
+                    }
+
+                    .data.switch {
+                        background-color: @theme-custom__dark-blue-color;
+                        color: @theme-custom__tab-text-color;
+
+                        &:hover {
+                            background-color: @theme-custom__blue-color;
+                        }
+                    }
+                }
+            }
+        }
+
+        a {
+            color: @theme-custom__product-page-link-color;
+
+            &:hover {
+                color: @theme-custom__product-page-link-color-hover;
+            }
+        }
+    }
+}
