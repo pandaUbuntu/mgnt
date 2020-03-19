@@ -1,4 +1,21 @@
 <?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
 
-<p><?= $block->escapeHtml(__('Full name: %1 %2', $block->getFirstName(), $block->getLastName())) ?></p>
-<p><?= $block->escapeHtml(__('Repository URL: %1', $block->getRepositoryUrl())) ?></p>
+<?php $request = $block->getRequest(); ?>
+<p><?= $block->escapeHtml(__('Full name: %1 %2', $request->getParam('first_name'), $request->getParam('last_name'))) ?></p>
+<p><?= $block->escapeUrl(__('Repository URL: %1', $request->getParam('URL'))) ?></p>
+
+<div id="js-demo" data-mage-init='{"oleksandrr_catalog_demoFunction": {}}'></div>
+<div id="js-demo" data-mage-init='{"oleksandrr_catalog_demoFunction": {"text": "First some text"}}'></div>
+<div id="js-demo" data-mage-init='{"oleksandrr_catalog_demoFunction": {"text": "Second some text"}}'></div>
+<div class="x-magento-init-demo"></div>
+
+<script type="text/x-magento-init">
+    {
+        ".x-magento-init-demo": {
+            "oleksandrr_catalog_demoFunction": {
+                "text": "x-magento-init test"
+            }
+        }
+    }
+</script>
+
