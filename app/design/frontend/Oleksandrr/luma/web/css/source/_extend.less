@@ -1,0 +1,13 @@
+@import 'extends/_color';
+
+& when (@media-common = true) {
+    .page-wrapper {
+        a {
+            color: @theme-custom__product-page-link-color;
+
+            &:hover {
+                color: @theme-custom__product-page-link-color-hover;
+            }
+        }
+    }
+}

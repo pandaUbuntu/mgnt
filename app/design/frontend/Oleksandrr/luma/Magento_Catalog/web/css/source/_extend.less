@@ -1,0 +1,24 @@
+& when (@media-common = true) {
+    .page-wrapper {
+        .page-main {
+            .product.data.items {
+                .data.item.title {
+                    &.active {
+                        .data.switch {
+                            background-color: @theme-custom__blue-color;
+                        }
+                    }
+
+                    .data.switch {
+                        background-color: @theme-custom__dark-blue-color;
+                        color: @theme-custom__tab-text-color;
+
+                        &:hover {
+                            background-color: @theme-custom__blue-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

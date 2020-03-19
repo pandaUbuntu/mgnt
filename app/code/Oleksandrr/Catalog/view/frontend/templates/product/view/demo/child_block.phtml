@@ -1,0 +1,6 @@
+<?php /** @var \Oleksandrr\Catalog\Block\Product\View\Demo $block */ ?>
+<?php $foo = false; ?>
+<p><?= $block->escapeHtml(__('Some text')) ?></p>
+<p><?= $block->escapeHtml(__('First value %1, second value %2', $block->getProductSalableQty(), $block->getProductName())) ?></p>
+<p><?= $block->escapeHtml(__('Int var: %1', $block->getIntVar())); ?></p>
+<p><?= $block->escapeHtml(__('String var: %1', $block->getStringVar())); ?></p>

@@ -1,0 +1,35 @@
+<?php
+/** @var \Magento\Newsletter\Block\Subscribe $block */
+?>
+<div class="block newsletter">
+    <div class="title"><strong><?= $block->escapeHtml(__('Newsletter')) ?></strong></div>
+    <p style="color:white"><?= $block->escapeHtml(__('Subscribe now to get special promo!')) ?></p>
+    <div class="content">
+        <form class="form subscribe"
+            novalidate
+            action="<?= $block->escapeUrl($block->getFormActionUrl()) ?>"
+            method="post"
+            data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+            id="newsletter-validate-detail">
+            <div class="field newsletter">
+                <div class="control">
+                    <label for="newsletter">
+                        <input name="email" type="email" id="newsletter"
+                               placeholder="<?= $block->escapeHtml(__('Enter your email address')) ?>"
+                               data-mage-init='{"mage/trim-input":{}}'
+                               data-validate="{required:true, 'validate-email':true}"
+                        />
+                    </label>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="action subscribe primary sr-only"
+                        title="<?= $block->escapeHtmlAttr(__('Subscribe')) ?>"
+                        type="submit"
+                        aria-label="Subscribe">
+                    <span><?= $block->escapeHtml(__('Subscribe')) ?></span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
