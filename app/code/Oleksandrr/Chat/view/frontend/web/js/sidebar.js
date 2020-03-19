@@ -1,6 +1,6 @@
 define([
-    'jquery'
-    // 'oleksandrr_customerPreferences_form'
+    'jquery',
+    'mage/template'
 ], function ($) {
     'use strict';
 
@@ -10,7 +10,9 @@ define([
             sendButton: '#oleksandrr-chat-send-button',
             closeWindowChat: '#oleksandrr-chat-window-close-button',
             textArea: '#oleksandrr-chat-textarea',
-            messageField: '#oleksandrr-chat-message-field'
+            messageField: '#oleksandrr-chat-message-field',
+            action: '/oleksandrr-chat-controllers-message/message',
+            baseUrl: 'https://alexandrr.local'
         },
 
         /**
@@ -19,7 +21,7 @@ define([
         _create: function () {
             $(document).on('oleksandrr_Chat_openChatWindow.oleksandrr_chat', $.proxy(this.openChatWindow, this));
             $(this.options.closeWindowChat).on('click.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
-            $(this.options.sendButton).on('click.oleksandrr_chat', $.proxy(this.sendMessage, this));
+            $(this.options.sendButton).on('click.oleksandrr_chat', $.proxy(this.sendUserMessage, this));
             // make the hidden form visible after the styles are initialized
             $(this.element).show();
         },
@@ -51,11 +53,49 @@ define([
         /**
          * Print user message
          */
-        sendMessage: function () {
+        sendUserMessage: function () {
             var message = $(this.options.textArea).val();
 
-            $(this.options.messageField).append('<p class="oleksandrr-chat-message oleksandrr-chat-user-message">' + message + '</p>');
-            $(this.options.messageField).append('<p class="oleksandrr-chat-message oleksandrr-chat-admin-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu egestas nisi, ut varius dolor. </p>');
+            if (message.length) {
+                $(this.options.messageField).append(this.getMessage(0, message));
+            }
+
+            $(this.options.textArea).val('');
+            this.sendAdminMessage('Test');
+
+            $.ajax({
+                url: this.options.baseUrl + this.options.action + '/userMessage/' + message,
+                processData: false,
+                contentType: false,
+                type: 'get',
+                dataType: 'json'
+            })
+                .done(function (response) {
+
+            })
+                .fail(function (error) {
+                    console.log(JSON.stringify(error));
+                });
+        },
+
+        /**
+         *
+         */
+        sendAdminMessage: function (message) {
+            $(this.options.messageField).append(this.getMessage(1, message));
+        },
+
+        getMessage: function (typeUser, message) {
+            var messageClass = 'oleksandrr-chat-user-message';
+            var messageAuthor = 'User';
+            var date = new Date().toLocaleTimeString();
+
+            if (typeUser) {
+                messageClass = 'oleksandrr-chat-admin-message';
+                messageAuthor = 'Admin';
+            }
+
+
         }
     });
 
