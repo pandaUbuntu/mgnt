@@ -1,0 +1,43 @@
+& when (@media-common = true) {
+    .messages {
+        .message {
+            div {
+                color: @theme-custom__message-color-text;
+            }
+
+            &.success {
+                background-color: @theme-custom__success_message_color;
+
+                div:before {
+                    color: @theme-custom__success_message_icon_color;
+                }
+            }
+
+            &.info {
+                background-color: @theme-custom__info_message_color;
+
+                div:before {
+                    color: @theme-custom__info_message_icon_color;
+                }
+            }
+
+            &.warning {
+                background-color: @theme-custom__warning_message_color;
+
+                div{
+                    color: @theme-custom__warning-message-text-color;
+
+                    &:before {
+                        color: @theme-custom__warning_message_icon_color;
+                    }
+                }
+            }
+
+            &.error{
+                div{
+                    color: @theme-custom__error-message-text-color;
+                }
+            }
+        }
+    }
+}

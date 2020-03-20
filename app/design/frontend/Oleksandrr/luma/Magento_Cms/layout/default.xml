@@ -8,15 +8,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="page.wrapper">
-            <block class="Magento\Cms\Block\Block" name="my_first_block_page_oleksandrr" before="global.notices">
+            <block class="Magento\Cms\Block\Block" name="title_demo_block" before="global.notices">
                 <arguments>
-                    <argument name="block_id" xsi:type="string">first_block_page_oleksandrr</argument>
+                    <argument name="block_id" xsi:type="string">title_demo_block</argument>
                 </arguments>
             </block>
         </referenceContainer>
 
         <referenceContainer name="sidebar.additional">
-            <block class="Magento\Cms\Block\Block" name="my-sidebar_custom_img" before="gwishlist_sidebar">
+            <block class="Magento\Cms\Block\Block" name="sidebar_custom_img" before="wishlist_sidebar">
                 <arguments>
                     <argument name="block_id" xsi:type="string">sidebar_custom_img</argument>
                 </arguments>
