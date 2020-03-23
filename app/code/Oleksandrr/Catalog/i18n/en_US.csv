@@ -2,3 +2,5 @@
 "First value %1, second value %2","First value %1, second value %2"
 "Int var: %1","Int var: %1"
 "String var: %1","String var: %1"
+"Full name: %1 %2","Full name: %1 %2"
+"Repository URL: %1","Repository URL: %1"
