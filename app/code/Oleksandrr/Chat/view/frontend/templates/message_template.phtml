@@ -1,17 +1,6 @@
-<script id="message-template" type="text/x-magento-template">
+<script id="message_template" type="text/x-magento-template">
     <div class="oleksandrr-chat-message-wrapper">
-        <p class="oleksandrr-chat-message <% data. %>"></p>
-
-    <div class="wrapper">
-        <input id="<%- data.id %>" name="<%- data.name %>" placeholder="<%- data.placeholder %>" />
+        <p class="oleksandrr-chat-message messageClass"></p>
+        <p class="oleksandrr-chat-message-name oleksandrr-chat-message-user-name"><%- data.messageAuthor %></p>
     </div>
 </script>
-
-return '<p class="oleksandrr-chat-message ' +
-                messageClass + '">' +
-        message + '</p>' +
-    '<p class="oleksandrr-chat-message-name oleksandrr-chat-message-user-name">' +
-        messageAuthor + ', ' +
-        date +
-        '</p>' +
-    '</div>';

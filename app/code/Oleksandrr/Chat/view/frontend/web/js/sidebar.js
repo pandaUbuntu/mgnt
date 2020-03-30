@@ -1,7 +1,7 @@
 define([
     'jquery',
     'mage/template'
-], function ($) {
+], function ($, mageTemplate) {
     'use strict';
 
     $.widget('oleksandrrChat.sidebar', {
@@ -63,19 +63,19 @@ define([
             $(this.options.textArea).val('');
             this.sendAdminMessage('Test');
 
-            $.ajax({
-                url: this.options.baseUrl + this.options.action + '/userMessage/' + message,
-                processData: false,
-                contentType: false,
-                type: 'get',
-                dataType: 'json'
-            })
-                .done(function (response) {
-
-            })
-                .fail(function (error) {
-                    console.log(JSON.stringify(error));
-                });
+            // $.ajax({
+            //     url: this.options.baseUrl + this.options.action + '/userMessage/' + message,
+            //     processData: false,
+            //     contentType: false,
+            //     type: 'get',
+            //     dataType: 'json'
+            // })
+            //     .done(function (response) {
+            //
+            // })
+            //     .fail(function (error) {
+            //         console.log(JSON.stringify(error));
+            //     });
         },
 
         /**
@@ -95,7 +95,22 @@ define([
                 messageAuthor = 'Admin';
             }
 
+            // eslint-disable-next-line no-unused-vars
+            var template = mageTemplate('#message_template');
 
+            template = template({
+                data: {
+                    messageClass: messageClass,
+                    messageAuthor: messageAuthor,
+                    date: date,
+                    message: message
+                }
+            });
+
+            console.log(template);
+            // console.log(field);
+
+            //$('#oleksandrr-chat-message-field').append(field);
         }
     });
 

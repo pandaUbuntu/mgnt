@@ -14,7 +14,6 @@ define([
          * @private
          */
         _create: function () {
-
             $(this.element).on('click.oleksandrr_chat', $.proxy(this.openChatWindow, this));
             $(this.element).on('oleksandrr_Chat_closeChatWindow.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
         },
