@@ -13,11 +13,17 @@
                        name="oleksandrr.chat.sidebar"
                        template="Oleksandrr_Chat::sidebar.phtml"
                 />
-<!--                <block class="Magento\Framework\View\Element\Template"-->
-<!--                       name="oleksandrr.customerPreferences.form"-->
-<!--                       template="Oleksandrr_CustomerPreferences::form.phtml"-->
-<!--                />-->
+                <block class="Magento\Framework\View\Element\Template"
+                       name="oleksandrr.customTemplate.message"
+                       template="Oleksandrr_Chat::message_template.phtml"
+                />
             </container>
         </referenceBlock>
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="oleksandrr.chat.mobile.button"
+                   before="top.search"
+                   template="Oleksandrr_Chat::chat_mobile_button.phtml" />
+        </referenceContainer>
     </body>
 </page>

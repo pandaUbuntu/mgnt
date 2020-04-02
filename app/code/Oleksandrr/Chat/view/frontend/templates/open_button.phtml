@@ -1,7 +1,6 @@
-<?php /** @var \Magento\Framework\View\Element\Template $block */
-/* Must use the class `oleksandrr-chat-open-button` for proper events binding and unbinding */
-?>
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
 <a href="javascript:void(0);"
    class="oleksandrr-chat-open-button active"
    data-mage-init='{"oleksandrr_chat_openButton": {}}'
-><?= $block->escapeHtml(__('Chat with Admin')) ?></a>
+><img class="chat-logo" src="<?= $block->getBaseUrl() ?>media/wysiwyg/chat.png" alt="Chat"/></a>
+<a href="javascript:void(0);" id="oleksandrr-chat-test-destroy">X</a>

@@ -10,7 +10,7 @@ class ChatMessage extends \Magento\Framework\App\Action\Action implements \Magen
 {
     /**
      * @inheritDoc
-     * "https://alexandrr.local/oleksandrr-chat-controllers-message/message/userMessage/some%20string"
+     * https://alexandrr.local/oleksandrr-chat-controllers-message/message/chatMessage/some%20string
      */
     public function execute()
     {

@@ -11,8 +11,7 @@ define([
             closeWindowChat: '#oleksandrr-chat-window-close-button',
             textArea: '#oleksandrr-chat-textarea',
             messageField: '#oleksandrr-chat-message-field',
-            action: '/oleksandrr-chat-controllers-message/message',
-            baseUrl: 'https://alexandrr.local'
+            destroyButton: '#oleksandrr-chat-test-destroy'
         },
 
         /**
@@ -22,7 +21,7 @@ define([
             $(document).on('oleksandrr_Chat_openChatWindow.oleksandrr_chat', $.proxy(this.openChatWindow, this));
             $(this.options.closeWindowChat).on('click.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
             $(this.options.sendButton).on('click.oleksandrr_chat', $.proxy(this.sendUserMessage, this));
-            // make the hidden form visible after the styles are initialized
+            $(this.options.destroyButton).on('click.oleksandrr_chat', $.proxy(this._destroy, this));
             $(this.element).show();
         },
 
@@ -31,7 +30,7 @@ define([
          */
         _destroy: function () {
             $(document).off('oleksandrr_Chat_openChatWindow.oleksandrr_chat');
-            $(this.options.closeSidebar).off('click.oleksandrr_chat');
+            $(this.options.closeWindowChat).off('click.oleksandrr_chat');
             $(this.options.sendButton).off('click.oleksandrr_chat');
         },
 
@@ -53,28 +52,27 @@ define([
         /**
          * Print user message
          */
-        sendUserMessage: function () {
-            var message = $(this.options.textArea).val();
+        sendUserMessage: function (event) {
+            event.preventDefault();
+            var sender = this;
+
+            var message = $(sender.options.textArea).val();
 
             if (message.length) {
-                $(this.options.messageField).append(this.getMessage(0, message));
+                $(sender.options.messageField).append(sender.getMessage(0, message));
             }
 
-            $(this.options.textArea).val('');
-            this.sendAdminMessage('Test');
+            $(sender.options.textArea).val('');
 
             $.ajax({
-                url: this.options.baseUrl + this.options.action + '/userMessage/' + message,
+                url: $('#oleksandrr-chat-admin-url').val() + message,
                 processData: false,
                 contentType: false,
                 type: 'get',
                 dataType: 'json'
             })
                 .done(function (response) {
-
-            })
-                .fail(function (error) {
-                    console.log(JSON.stringify(error));
+                    sender.sendAdminMessage(response.admin_message);
                 });
         },
 
