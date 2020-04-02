@@ -4,13 +4,7 @@
         <referenceContainer name="content">
             <block class="Magento\Framework\View\Element\Template"
                    template="Oleksandrr_Catalog::data_demo.phtml"
-            >
-                <arguments>
-                    <argument name="first_name" xsi:type="string">Oleksandr</argument>
-                    <argument name="last_name" xsi:type="string">Radionov</argument>
-                    <argument name="repository_url" xsi:type="string">Some Url</argument>
-                </arguments>
-            </block>
+            />
         </referenceContainer>
     </body>
 </page>
