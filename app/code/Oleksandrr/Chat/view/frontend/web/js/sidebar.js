@@ -18,10 +18,22 @@ define([
          * @private
          */
         _create: function () {
+            var sender = this;
+
             $(document).on('oleksandrr_Chat_openChatWindow.oleksandrr_chat', $.proxy(this.openChatWindow, this));
             $(this.options.closeWindowChat).on('click.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
             $(this.options.sendButton).on('click.oleksandrr_chat', $.proxy(this.sendUserMessage, this));
             $(this.options.destroyButton).on('click.oleksandrr_chat', $.proxy(this._destroy, this));
+
+            $.ajax({
+                url: $('#oleksandrr-chat-admin-url-get').val(),
+                type: 'get',
+                dataType: 'json'
+            })
+                .done(function (response) {
+                    sender.showPreviousMessages(response.list);
+                });
+
             $(this.element).show();
         },
 
@@ -55,7 +67,6 @@ define([
         sendUserMessage: function (event) {
             event.preventDefault();
             var sender = this;
-
             var message = $(sender.options.textArea).val();
 
             if (message.length) {
@@ -65,11 +76,12 @@ define([
             $(sender.options.textArea).val('');
 
             $.ajax({
-                url: $('#oleksandrr-chat-admin-url').val() + message,
-                processData: false,
-                contentType: false,
-                type: 'get',
-                dataType: 'json'
+                url: $('#oleksandrr-chat-admin-url-save').val(),
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    user_message: message
+                }
             })
                 .done(function (response) {
                     sender.sendAdminMessage(response.admin_message);
@@ -105,6 +117,30 @@ define([
             });
 
             $('#oleksandrr-chat-message-field').append(field);
+        },
+
+        showPreviousMessages: function (list) {
+            var sender = this;
+            $.each(list, function (index, item) {
+                var date = new Date(item.created_at);
+
+                $('#oleksandrr-chat-message-field').append(
+                    sender.createMessage(item.author_name, date.toLocaleTimeString(), item.message)
+                );
+            });
+        },
+
+        createMessage: function (authorName, date, message) {
+            var template = mageTemplate('#message_template');
+
+            return template({
+                data: {
+                    messageClass: 'oleksandrr-chat-user-message',
+                    messageAuthor: authorName,
+                    date: date,
+                    message: message
+                }
+            });
         }
     });
 

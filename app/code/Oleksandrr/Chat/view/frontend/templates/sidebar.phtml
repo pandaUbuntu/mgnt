@@ -3,14 +3,13 @@
      style="display: none;"
      data-mage-init='{"oleksandrr_chat_sidebar": {}}'
 >
-    <input type="hidden" id="oleksandrr-chat-admin-url" value="<?php echo $block->getUrl('oleksandrr-chat-controllers-message/message/chatMessage'); ?>">
+    <input type="hidden" id="oleksandrr-chat-admin-url-save" value="<?php echo $block->getUrl('oleksandrr-chat-controllers-message/message/send'); ?>">
+    <input type="hidden" id="oleksandrr-chat-admin-url-get" value="<?php echo $block->getUrl('oleksandrr-chat-controllers-message/message/messages'); ?>">
     <h3><?= $block->escapeHtml(__('Chat with Admin')) ?></h3>
 
     <div class="oleksandrr-chat-message-field-wrapper">
         <div id="oleksandrr-chat-message-field">
-
         </div>
-
     </div>
     <div>
         <label for="oleksandrr-chat-textarea">Enter message</label>
