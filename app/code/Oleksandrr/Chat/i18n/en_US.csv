@@ -1,3 +1,7 @@
 "Chat with Admin","Chat with Admin"
 "Send message","Send message"
 "Close","Close"
+"Message can\'t be saved.","Message can\'t be saved."
+"Saved!","Saved!"
+"Can\'t save chat message: %s is not set.', 'website_id","Can\'t save chat message: %s is not set.', 'website_id"
+"Message is empty","Message is empty"
