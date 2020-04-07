@@ -2,5 +2,5 @@
 <a href="javascript:void(0);"
    class="oleksandrr-chat-open-button active"
    data-mage-init='{"oleksandrr_chat_openButton": {}}'
-><img class="chat-logo" src="<?= $block->getBaseUrl() ?>media/wysiwyg/chat.png" alt="Chat"/></a>
+><img class="chat-logo" src="<?= $block->escapeUrl($block->getViewFileUrl('Oleksandrr_Chat/images/chat.png')) ?>" alt="<?= $block->escapeHtml(__('Chat')) ?>>"/></a>
 <a href="javascript:void(0);" id="oleksandrr-chat-test-destroy">X</a>

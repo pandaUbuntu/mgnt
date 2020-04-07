@@ -4,7 +4,7 @@
         <column xsi:type="int" name="message_id" padding="10" unsigned="true" nullable="false" identity="true"
                 comment="Message ID"
         />
-        <column xsi:type="int" name="author_id" padding="10" unsigned="true" nullable="false"
+        <column xsi:type="int" name="author_id" padding="10" unsigned="true" nullable="true"
                 comment="Author ID"
         />
         <column xsi:type="tinyint" name="author_type" unsigned="true" nullable="false"
@@ -13,13 +13,13 @@
         <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false"
                 comment="Website ID"
         />
-        <column xsi:type="varchar" name="author_name" nullable="true" length="255"
+        <column xsi:type="varchar" name="author_name" nullable="false" length="255"
                 comment="Author name"
         />
-        <column xsi:type="text" name="message" nullable="true"
+        <column xsi:type="text" name="message" nullable="false"
                 comment="Chat message"
         />
-        <column xsi:type="varchar" name="chat_hash" nullable="true" length="255"
+        <column xsi:type="varchar" name="chat_hash" nullable="false" length="255"
                 comment="Chat hash"
         />
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
@@ -37,5 +37,7 @@
         <index referenceId="OLEKSANDRR_CHAT_WEBSITE_ID" indexType="btree">
             <column name="website_id"/>
         </index>
+        <constraint xsi:type="foreign" referenceId="OLEKSANDRR_CHAT_MESSAGES_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID" table="oleksandrr_chat_messages"
+                    column="website_id" referenceTable="store_website" referenceColumn="website_id" onDelete="CASCADE"/>
     </table>
 </schema>

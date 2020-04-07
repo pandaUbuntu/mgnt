@@ -6,6 +6,13 @@ namespace Oleksandrr\Chat\Model\ResourceModel\Message;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
+     * List of messages
+     *
+     * @var array
+     */
+    private $messages = [];
+
+    /**
      * @inheritDoc
      */
     protected function _construct(): void
@@ -15,6 +22,14 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             \Oleksandrr\Chat\Model\Message::class,
             \Oleksandrr\Chat\Model\ResourceModel\Message::class
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function getCollection()
+    {
+        return $this->messages;
     }
 
     /**
