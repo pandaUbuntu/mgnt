@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="oleksandrr_chat_messages" resource="default" engine="innodb" comment="Chat message">
+        <column xsi:type="int" name="message_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Message ID"
+        />
+        <column xsi:type="int" name="author_id" padding="10" unsigned="true" nullable="true"
+                comment="Author ID"
+        />
+        <column xsi:type="tinyint" name="author_type" unsigned="true" nullable="false"
+                comment="Author type"
+        />
+        <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false"
+                comment="Website ID"
+        />
+        <column xsi:type="varchar" name="author_name" nullable="false" length="255"
+                comment="Author name"
+        />
+        <column xsi:type="text" name="message" nullable="false"
+                comment="Chat message"
+        />
+        <column xsi:type="varchar" name="chat_hash" nullable="false" length="255"
+                comment="Chat hash"
+        />
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"
+        />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="message_id"/>
+        </constraint>
+        <index referenceId="OLEKSANDRR_CHAT_MESSAGE_ID" indexType="btree">
+            <column name="message_id"/>
+        </index>
+        <index referenceId="OLEKSANDRR_CHAT_AUTHOR_ID" indexType="btree">
+            <column name="author_id"/>
+        </index>
+        <index referenceId="OLEKSANDRR_CHAT_WEBSITE_ID" indexType="btree">
+            <column name="website_id"/>
+        </index>
+        <constraint xsi:type="foreign" referenceId="OLEKSANDRR_CHAT_MESSAGES_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID" table="oleksandrr_chat_messages"
+                    column="website_id" referenceTable="store_website" referenceColumn="website_id" onDelete="CASCADE"/>
+    </table>
+</schema>

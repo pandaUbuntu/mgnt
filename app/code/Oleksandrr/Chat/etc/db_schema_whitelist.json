@@ -1,0 +1,19 @@
+{
+    "oleksandrr_chat_messages": {
+        "column": {
+            "message_id": true,
+            "author_id": true,
+            "author_type": true,
+            "website_id": true,
+            "author_name": true,
+            "chat_hash": true,
+            "message": true,
+            "created_at": true
+        },
+        "index": {
+            "OLEKSANDRR_CHAT_MESSAGE_ID": true,
+            "OLEKSANDRR_CHAT_AUTHOR_ID": true,
+            "OLEKSANDRR_CHAT_WEBSITE_ID": true
+        }
+    }
+}

@@ -1,0 +1,160 @@
+@oleksandrr_chat-admin-message-background: @color-sky-blue1;
+@oleksandrr_chat-admin-message-border: @color-blue1;
+
+@oleksandrr_chat-user-message-background: @color-pink1;
+@oleksandrr_chat-user-message-border: @color-red9;
+
+@oleksandrr_chat-borber-button: @color-gray-middle3;
+
+@oleksandrr_chat-user-name-color: @oleksandrr_chat-user-message-border;
+@oleksandrr_chat-admin-name-color: @oleksandrr_chat-admin-message-border;
+
+& when (@media-common = true) {
+    #oleksandrr-chat-test-destroy {
+        background-color: @color-white;
+        border: @border-width__base solid @border-color__base;
+        bottom: 100px;
+        position: fixed;
+        right: 1px;
+        padding: 20px;
+        text-orientation: upright;
+        writing-mode: vertical-rl;
+        border-radius: 5px;
+        z-index: 100;
+    }
+
+    .oleksandrr-chat-open-button {
+        background-color: @color-white;
+        border: @border-width__base solid @border-color__base;
+        bottom: 30px;
+        position: fixed;
+        right: -62px;
+        padding: 20px;
+        text-orientation: upright;
+        writing-mode: vertical-rl;
+        border-radius: 5px;
+        z-index: 100;
+
+        &.active {
+            right: 0;
+
+            .chat-logo{
+                display: block;
+                height: 20px;
+                width: 20px;
+            }
+        }
+
+        .chat-logo{
+            display: none;
+        }
+    }
+
+    #oleksandrr-chat-window {
+        background-color: @color-white;
+        border: @border-width__base solid @border-color__base;
+        bottom: 30px;
+        display: block;
+        max-height: 470px;
+        padding: 30px;
+        position: fixed;
+        right: -360px;
+        transition-property: right;
+        transition-duration: .3s;
+        width: 300px;
+        z-index: 99;
+
+        &.active {
+            right: 0;
+        }
+
+        .oleksandrr-chat-message-field-wrapper {
+            overflow: hidden;
+            border: 2px solid #C1C1C1;
+            border-radius: 25px;
+            height: 300px;
+
+            #oleksandrr-chat-message-field {
+                height: 300px;
+                width: 100%;
+                padding: 5px 10px;
+                overflow-y: scroll;
+            }
+        }
+
+        .oleksandrr-chat-button-wrapper {
+            padding: 10px 0 0 0;
+        }
+
+        .oleksandrr-chat-message-wrapper {
+            .oleksandrr-chat-message {
+                border-radius: 5px;
+                border: 2px solid;
+                max-width: 250px;
+                padding-left: 5px;
+                text-align: left;
+
+                &.oleksandrr-chat-user-message {
+                    background-color: @oleksandrr_chat-user-message-background;
+                    border-color: @oleksandrr_chat-user-message-border;
+                    margin-left: 15px;
+                }
+
+                &.oleksandrr-chat-admin-message {
+                    background-color: @oleksandrr_chat-admin-message-background;
+                    border-color: @oleksandrr_chat-admin-message-border;
+                }
+            }
+
+            .oleksandrr-chat-message-name {
+                font-size: 10px;
+                padding-top: -5px;
+                margin-top: 0;
+
+                &.oleksandrr-chat-message-user-name {
+                    color: @oleksandrr_chat-user-name-color;
+                    text-align: right;
+                    padding-right: 10px;
+                    margin-top: -8px;
+                }
+
+                &.oleksandrr-chat-message-admin-name {
+                    color: @oleksandrr_chat-admin-message-background;
+                    text-align: left;
+                }
+            }
+
+        }
+    }
+
+    #oleksandrr-chat-form {
+        padding-bottom: @modal-popup__padding;
+    }
+
+    .oleksandrr-chat-open-button-mobile{
+        display: none;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .oleksandrr-chat-open-button{
+        display: none;
+    }
+
+    .oleksanddr-chat-mobile-button-wrapper{
+        display: inline-block;
+        position: relative;
+        float: right;
+        margin-top: 14px;
+        margin-right: 5px;
+
+        .oleksandrr-chat-open-button-mobile{
+            display: block;
+        }
+    }
+
+    .chat-logo{
+        height: 20px;
+        width: 20px;
+    }
+}

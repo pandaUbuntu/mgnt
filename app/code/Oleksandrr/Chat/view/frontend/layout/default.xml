@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+>
+    <body>
+        <referenceBlock name="before.body.end">
+            <container name="oleksandrr.chat">
+                <block class="Magento\Framework\View\Element\Template"
+                       name="oleksandrr.chat.button"
+                       template="Oleksandrr_Chat::open_button.phtml"
+                />
+                <block class="Magento\Framework\View\Element\Template"
+                       name="oleksandrr.chat.sidebar"
+                       template="Oleksandrr_Chat::sidebar.phtml"
+                />
+                <block class="Magento\Framework\View\Element\Template"
+                       name="oleksandrr.customTemplate.message"
+                       template="Oleksandrr_Chat::message_template.phtml"
+                />
+            </container>
+        </referenceBlock>
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="oleksandrr.chat.mobile.button"
+                   before="top.search"
+                   template="Oleksandrr_Chat::chat_mobile_button.phtml" />
+        </referenceContainer>
+    </body>
+</page>

@@ -1,5 +1,4 @@
 <?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
-
 <?php $request = $block->getRequest(); ?>
 <p><?= $block->escapeHtml(__('Full name: %1 %2', $request->getParam('first_name'), $request->getParam('last_name'))) ?></p>
 <p><?= $block->escapeUrl(__('Repository URL: %1', $request->getParam('URL'))) ?></p>
