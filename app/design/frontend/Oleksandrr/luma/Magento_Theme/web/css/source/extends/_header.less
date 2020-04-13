@@ -1,0 +1,72 @@
+& when (@media-common = true) {
+    header.page-header {
+        .panel.wrapper {
+            background-color: @theme-custom__dark-blue-color;
+        }
+    }
+
+    .section-item-content.nav-sections-item-content,
+    .section-item-content.nav-sections-item-content .navigation {
+        background-color: @theme-custom__blue-color;
+    }
+
+    .navigation {
+        li {
+            a.level-top {
+                span {
+                    color: @theme-custom__header-link-color;
+                }
+            }
+        }
+
+        .submenu{
+            a{
+                span{
+                    color: @theme-custom__submenu-link-color;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-header{
+        background-color: @theme-custom__dark-blue-color;
+
+        span.nav-toggle:before,
+        .field.search label:before,
+        .minicart-wrapper .action.showcart:before{
+            color: @theme-custom__nav-element-color;
+        }
+    }
+
+    .navigation {
+        .level-top.parent{
+            a.level-top.ui-corner-all{
+                color: @theme-custom__nav-element-color;
+            }
+        }
+
+        ul.submenu{
+            .level1,
+            .level2{
+                a{
+                    span{
+                        color: @theme-custom__nav-element-color;
+                    }
+                }
+            }
+        }
+    }
+
+    .nav-sections-item-content{
+        .header.links{
+            li{
+                span,
+                a{
+                    color: @theme-custom__nav-element-color;
+                }
+            }
+        }
+    }
+}
