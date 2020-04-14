@@ -1,6 +1,7 @@
 define([
     'jquery',
-    'mage/template'
+    'mage/template',
+    'mage/cookies'
 ], function ($, mageTemplate) {
     'use strict';
 
@@ -69,46 +70,62 @@ define([
 
         /**
          * Print user message
+         *
+         * @param {Object} event
+         * @returns {boolean}
          */
         sendUserMessage: function (event) {
             event.preventDefault();
 
             var message = $(this.options.textArea).val();
 
-            if (message.length) {
-                $(this.options.messageField).append(this.getMessage(0, message));
-            } else {
-                alert('You cannot send a blank message.');
-                return false;
-            }
-
-            $(this.options.textArea).val('');
-
             $.ajax({
                 context: this,
                 data: {
-                    'user_message': message
+                    'user_message': message,
+                    'form_key': $.mage.cookies.get('form_key')
                 },
                 dataType: 'json',
                 type: 'post',
                 url:  this.options.saveUrl
             })
             .done(function (response) {
-                this.sendAdminMessage(response.admin_message);
+                if (message.length) {
+                    $(this.options.messageField).append(this.getMessage(0, message));
+                } else {
+                    alert('You cannot send a blank message.');
+                    return false;
+                }
+
+                $(this.options.textArea).val('');
+
+                /**
+                 * @var {String} response.admin_message
+                 */
+                if (response.admin_message.length > 0) {
+                    this.sendAdminMessage(response.admin_message);
+                }
             })
             .fail(function (error) {
                 console.log(error);
             });
         },
 
+        /**
+         * @param {String} message
+         */
         sendAdminMessage: function (message) {
             $(this.options.messageField).append(this.getMessage(1, message));
         },
 
+        /**
+         * @param {Number} typeUser
+         * @param {String} message
+         */
         getMessage: function (typeUser, message) {
             var messageClass = 'oleksandrr-chat-user-message',
-                messageAuthor = 'User',
-                template = mageTemplate('#message_template'),
+                messageAuthor = 'Guest',
+                template = mageTemplate('#message-template'),
                 date = new Date().toLocaleTimeString();
 
             if (typeUser) {
@@ -128,19 +145,35 @@ define([
             $('#oleksandrr-chat-message-field').append(field);
         },
 
+        /**
+         * @param {jsDoc} list
+         */
         showPreviousMessages: function (list) {
-            var context = this;
+            /**
+             * @var {Object} item
+             * @var {String} item.created_at
+             * @var {String} item.author_name
+             * @var {String} item.message
+             */
+
             $.each(list, function (index, item) {
                 var date = new Date(item.created_at);
 
                 $('#oleksandrr-chat-message-field').append(
-                    context.createMessage(item.author_name, date.toLocaleTimeString(), item.message)
+                    this.createMessage(item.author_name, date.toLocaleTimeString(), item.message)
                 );
-            });
+            }.bind(this));
         },
 
+        /**
+         *
+         * @param {String} authorName
+         * @param {String} date
+         * @param {String} message
+         * @returns {*}
+         */
         createMessage: function (authorName, date, message) {
-            var template = mageTemplate('#message_template');
+            var template = mageTemplate('#message-template');
 
             return template({
                 data: {
