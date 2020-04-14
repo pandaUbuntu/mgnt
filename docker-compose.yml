@@ -33,7 +33,8 @@ services:
     # Must add extra_hosts to be written to /etc/hosts - otherwise containerized application can not curl itself
     extra_hosts:
       - "alexandrr.local www.alexandrr.local alexandrr-store.local www.alexandrr-store.local:127.0.0.1"
-#    links:
+    links:
+      - redis
 #      - memcached
 #      - redis
 #      - elasticsearch
@@ -47,12 +48,12 @@ services:
       - /misc/share/ssl:/certs
       - ./docker/virtual-host.conf:/etc/apache2/sites-enabled/virtual-host.conf
 
-#  redis:
-#    image: redis:latest
-#    network_mode: bridge
-#    labels:
-#      - traefik.enable=false
-#    restart: always
+  redis:
+    image: redis:latest
+    network_mode: bridge
+    labels:
+      - traefik.enable=false
+    restart: always
 
 #  memcached:
 #    image: 'memcached:1.5'
