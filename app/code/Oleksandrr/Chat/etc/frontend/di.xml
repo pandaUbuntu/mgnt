@@ -5,4 +5,11 @@
             <argument name="userSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="chat" xsi:type="string">Oleksandrr\Chat\CustomerData\ChatMessages</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

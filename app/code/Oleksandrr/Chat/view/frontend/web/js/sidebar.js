@@ -1,8 +1,9 @@
 define([
     'jquery',
     'mage/template',
+    'Magento_Customer/js/customer-data',
     'mage/cookies'
-], function ($, mageTemplate) {
+], function ($, mageTemplate, customerData) {
     'use strict';
 
     $.widget('oleksandrrChat.sidebar', {
@@ -25,6 +26,8 @@ define([
             $(this.options.closeWindowChat).on('click.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
             $(this.options.sendButton).on('click.oleksandrr_chat', $.proxy(this.sendUserMessage, this));
             $(this.options.destroyButton).on('click.oleksandrr_chat', $.proxy(this._destroy, this));
+
+            console.log(customerData.get('chat')());
 
             $.ajax({
                 context: this,
