@@ -1,9 +1,8 @@
 define([
     'jquery',
     'Magento_Ui/js/modal/alert',
-    'Oleksandrr_Chat/js/model/chat-messages',
     'mage/template'
-], function ($, alert, messagesModel, mageTemplate) {
+], function ($, alert, mageTemplate) {
     'use strict';
 
     /**
@@ -23,7 +22,7 @@ define([
             }
         });
 
-        $('#oleksandrr-chat-message-field').append(field);
+        return field;
     }
 
     /**
@@ -53,7 +52,9 @@ define([
                 $('body').trigger('processStop');
 
                 if (messageObj.message.length) {
-                    messageField.append(getMessage(0, messageObj.message));
+                    console.log(getMessage(0, messageObj.message));
+                    console.log(messageField[0]);
+                    messageField[0].append(getMessage(0, messageObj.message));
 
                     $('#oleksandrr-chat-textarea').val('');
                 } else {

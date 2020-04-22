@@ -11,8 +11,22 @@
                 />
                 <block class="Magento\Framework\View\Element\Template"
                        name="oleksandrr.chat.sidebar"
-                       template="Oleksandrr_Chat::sidebar.phtml"
-                />
+                       template="Oleksandrr_Chat::sidebar.phtml">
+                    <arguments>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="chatSidebar" xsi:type="array">
+                                    <item name="component" xsi:type="string">oleksandrr_chat_sidebar</item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="template" xsi:type="string">Oleksandrr_Chat/sidebar</item>
+                                        <item name="actionSaveUrl" xsi:type="url" path="oleksandrr_chat/message/save"/>
+                                        <item name="getMessagesUrl" xsi:type="url" path="oleksandrr_chat/message/messages"/>
+                                    </item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
                 <block class="Magento\Framework\View\Element\Template"
                        name="oleksandrr.customTemplate.message"
                        template="Oleksandrr_Chat::message_template.phtml"

@@ -1,19 +1,11 @@
 <?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
-<div  data-bind="scope: 'chatSidebar'">
+<div id="oleksandrr-chat-sidebar-container" data-bind="scope: 'chatSidebar'">
     <!-- ko template: getTemplate() --><!-- /ko -->
-</div>
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "Magento_Ui/js/core/app": {
-                "components": {
-                    "chatSidebar": {
-                        "component": "oleksandrr_chat_sidebar",
-                        "actionSaveUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/save')) ?>",
-                        "getMessagesUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/messages')) ?>"
-                    }
-                }
+    <script type="text/x-magento-init">
+        {
+            "#oleksandrr-chat-sidebar-container": {
+                "Magento_Ui/js/core/app": <?= $block->getJsLayout() ?>
             }
         }
-    }
-</script>
+    </script>
+</div>

@@ -48,7 +48,6 @@ define([
          */
         closeChatWindow: function () {
             $(this.element).addClass('active');
-            console.log('test');
         }
     });
 
