@@ -16,10 +16,15 @@ define([
         _create: function () {
             $(this.element).on('click.oleksandrr_chat', $.proxy(this.openChatWindow, this));
             $(this.element).on('oleksandrr_Chat_closeChatWindow.oleksandrr_chat', $.proxy(this.closeChatWindow, this));
+
+            this.hash = Math.random().toString(36).substr(2, 9);
+            $(document).on(
+                'oleksandrr_Chat_closeChatWindow.oleksandrr_chat',
+                $.proxy(this.closeChatWindow, this)
+            );
         },
 
         /**
-         * jQuery(jQuery('.oleksandrr-chat-open-button').get(0)).data('oleksandrrChatOpenButton').destroy()
          * @private
          */
         _destroy: function () {
@@ -43,6 +48,7 @@ define([
          */
         closeChatWindow: function () {
             $(this.element).addClass('active');
+            console.log('test');
         }
     });
 

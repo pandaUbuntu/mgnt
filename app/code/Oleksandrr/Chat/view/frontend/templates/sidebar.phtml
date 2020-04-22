@@ -1,28 +1,19 @@
 <?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
-<div id="oleksandrr-chat-window"
-     style="display: none;"
-     data-mage-init='{"oleksandrr_chat_sidebar": {
-        "saveUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/save')) ?>",
-        "getUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/messages')) ?>"
-     }}'
->
-    <h3><?= $block->escapeHtml(__('Chat with Admin')) ?></h3>
-    <?= $block->getBlockHtml('formkey') ?>
-    <div class="oleksandrr-chat-message-field-wrapper">
-        <div id="oleksandrr-chat-message-field">
-        </div>
-    </div>
-    <div>
-        <label for="oleksandrr-chat-textarea"><?= $block->escapeHtml(__('Enter message')) ?></label>
-        <textarea id="oleksandrr-chat-textarea" placeholder="<?= $block->escapeHtml(__('Here you can write your message')) ?>"></textarea>
-    </div>
-    <div class="oleksandrr-chat-button-wrapper">
-        <button type="button"
-                class="action primary"
-                id="oleksandrr-chat-send-button"
-        ><?= $block->escapeHtml(__('Send message')) ?></button>
-        <button type="button"
-                id="oleksandrr-chat-window-close-button"
-        ><?= $block->escapeHtml(__('Close')) ?></button>
-    </div>
+<div  data-bind="scope: 'chatSidebar'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "chatSidebar": {
+                        "component": "oleksandrr_chat_sidebar",
+                        "actionSaveUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/save')) ?>",
+                        "getMessagesUrl": "<?= $block->escapeUrl($block->getUrl('oleksandrr_chat/message/messages')) ?>"
+                    }
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,35 @@
+<div id="oleksandrr-chat-window" data-bind="attr: { class: sidebarClass }">
+    <h3 translate="'Chat with Admin'"></h3>
+    <div data-bind="attr: { class: 'oleksandrr-chat-message-field-wrapper' }">
+        <div id="oleksandrr-chat-message-field">
+        </div>
+    </div>
+    <div>
+        <label data-bind="attr: { for:'oleksandrr-chat-textarea', class:'label'}" translate="'Enter message'"></label>
+        <textarea data-bind="
+                    value: textAreaValue,
+                    attr: {
+                        id: 'oleksandrr-chat-textarea',
+                        placeholder: $t(placeholder)
+                    }
+                "></textarea>
+    </div>
+    <div   class="oleksandrr-chat-button-wrapper">
+        <button type="button"
+                class="action primary"
+                data-bind="
+                    click: sendUserMessage,
+                    attr: {
+                        id: 'oleksandrr-chat-send-button',
+
+                    }"
+        ><span translate="'Send message'"></span></button>
+        <button type="button"
+                data-bind="
+                    click: closeSidebar,
+                    attr: {
+                        id: 'oleksandrr-chat-window-close-button'
+                    }"
+        ><span translate="'Close'"></span></button>
+    </div>
+</div>
