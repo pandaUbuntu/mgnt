@@ -55,7 +55,7 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
 
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    if ((int) $message->getAuthorId() === 0) {
+                    if (!(int) $message->getAuthorId()) {
                         $message->setAuthorId($user->getId());
                         $this->messageResource->save($message);
                     }

@@ -94,6 +94,7 @@ define([
                     $(this.options.messageField).append(this.getMessage(0, message));
                 } else {
                     alert('You cannot send a blank message.');
+
                     return false;
                 }
 
@@ -156,13 +157,14 @@ define([
              * @var {String} item.message
              */
 
+            var messages = '';
+
             $.each(list, function (index, item) {
                 var date = new Date(item.created_at);
-
-                $('#oleksandrr-chat-message-field').append(
-                    this.createMessage(item.author_name, date.toLocaleTimeString(), item.message)
-                );
+                messages += this.createMessage(item.author_name, date.toLocaleTimeString(), item.message);
             }.bind(this));
+
+            $('#oleksandrr-chat-message-field').append(messages);
         },
 
         /**
