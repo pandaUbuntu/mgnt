@@ -10,4 +10,9 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
+    <type name="Oleksandrr\Chat\Observer\UserLogin">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

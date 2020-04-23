@@ -57,7 +57,7 @@ class Messages extends \Magento\Framework\App\Action\Action implements
 
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    $collection[] = [
+                    $messageList[] = [
                         'author_name' => $message->getAuthorName(),
                         'message' => $message->getMessage(),
                         'created_at' => $message->getCreatedAt(),
