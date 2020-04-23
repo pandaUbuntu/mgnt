@@ -10,6 +10,10 @@ use Magento\Framework\Exception\LocalizedException;
 class Save extends \Magento\Framework\App\Action\Action implements
     \Magento\Framework\App\Action\HttpPostActionInterface
 {
+    public const XML_PATH_OLEKSANDRR_CHAT_ENABLED = 'oleksandrr_chat/general/enabled';
+
+    public const XML_PATH_OLEKSANDRR_CHAT_ALLOW_FOR_GUESTS = 'oleksandrr_chat/general/allow_for_guests';
+
     /**
      * @var \Oleksandrr\Chat\Model\MessageFactory $messageFactory
      */
@@ -33,7 +37,7 @@ class Save extends \Magento\Framework\App\Action\Action implements
     /**
      * @var \Magento\Customer\Model\Session
      */
-    private $userSession;
+    private $customerSession;
 
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -41,13 +45,20 @@ class Save extends \Magento\Framework\App\Action\Action implements
     private $formKeyValidator;
 
     /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigs
+     */
+    private $scopeConfig;
+
+    /**
      * Save constructor.
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Oleksandrr\Chat\Model\MessageFactory $messageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource,
-     * @param \Magento\Customer\Model\Session $userSession
+     * @param \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -55,16 +66,18 @@ class Save extends \Magento\Framework\App\Action\Action implements
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
         \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource,
-        \Magento\Customer\Model\Session $userSession,
-        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->messageFactory = $messageFactory;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->messageResource = $messageResource;
-        $this->userSession = $userSession;
+        $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -72,25 +85,25 @@ class Save extends \Magento\Framework\App\Action\Action implements
      */
     public function execute()
     {
-        /** @var \Magento\Framework\App\Request\Http $request */
-        $request = $this->getRequest();
-        $adminMessage = '';
-
         try {
-            if (!$this->formKeyValidator->validate($request)) {
+            /** @var \Magento\Framework\App\Request\Http $request */
+            $request = $this->getRequest();
+            $adminMessage = '';
+
+            if (!$this->validateRequest()) {
                 throw new LocalizedException(__('Validation Failed'));
             }
 
-            $userId = (int) $this->userSession->getId();
+            $userId = (int) $this->customerSession->getId();
             $websiteId = (int) $this->storeManager->getWebsite()->getId();
 
             /** @var \Oleksandrr\Chat\Model\Message $message */
             $message = $this->messageFactory->create();
             $date = new \DateTime();
 
-            if (!$hash = $this->userSession->getChatHash()) {
+            if (!$hash = $this->customerSession->getChatHash()) {
                 $hash = md5($date->getTimestamp() . $request->getParam('user_message'));
-                $this->userSession->setChatHash($hash);
+                $this->customerSession->setChatHash($hash);
             }
 
             $message
@@ -118,5 +131,31 @@ class Save extends \Magento\Framework\App\Action\Action implements
         ]);
 
         return $response;
+    }
+
+    /**
+     * @return bool
+     */
+    private function validateRequest(): bool
+    {
+        $request = $this->getRequest();
+        $allowSaveMessage = true;
+
+        if (!$this->formKeyValidator->validate($request)) {
+            $allowSaveMessage = false;
+        }
+
+        if (!$this->scopeConfig->getValue(self::XML_PATH_OLEKSANDRR_CHAT_ENABLED)
+            || (!$this->customerSession->isLoggedIn() && !$this->scopeConfig->getValue(self::XML_PATH_OLEKSANDRR_CHAT_ALLOW_FOR_GUESTS))
+        ) {
+            $allowSaveMessage = false;
+        }
+
+        $eventParameters = [
+            'allow_saving_messages' => $allowSaveMessage
+        ];
+        $this->_eventManager->dispatch('oleksandrr_chat_allow_save', $eventParameters);
+
+        return $allowSaveMessage;
     }
 }
