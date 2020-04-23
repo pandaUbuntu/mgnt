@@ -46,7 +46,7 @@ class Messages extends \Magento\Framework\App\Action\Action implements
 
     public function execute()
     {
-        $collection = [];
+        $messageList = [];
         $message = '';
 
         try {
@@ -64,7 +64,7 @@ class Messages extends \Magento\Framework\App\Action\Action implements
                     ];
                 }
 
-                $message = 'Post count: ' . count($collection);
+                $message = 'Message count: ' . count($messageList);
             }
         } catch (\Exception $e) {
             $this->logger->critical($e);
@@ -74,7 +74,7 @@ class Messages extends \Magento\Framework\App\Action\Action implements
         /** @var JsonResult $response */
         $response = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $response->setData([
-            'list' => $collection,
+            'list' => $messageList,
             'message' => $message,
         ]);
 
