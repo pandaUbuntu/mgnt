@@ -51,9 +51,10 @@ class Messages extends \Magento\Framework\App\Action\Action implements
 
         try {
             $chatHash = $this->customerSession->getChatHash();
-            $messageCollection = $this->messageCollectionFactory->create()->addChatHashFilter($chatHash);
 
-            if ($messageCollection->count()) {
+            if ($chatHash) {
+                $messageCollection = $this->messageCollectionFactory->create()->addChatHashFilter($chatHash);
+
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
                     $collection[] = [

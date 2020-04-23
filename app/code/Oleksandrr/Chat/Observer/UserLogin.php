@@ -51,11 +51,11 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
             if ($chatHash = $this->userSession->getChatHash()) {
                 $user = $observer->getEvent()->getCustomer();
                 $messageCollection = $this->messageCollectionFactory->create();
-                $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(1);
+                $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(\Oleksandrr\Chat\Model\Message::CUSTOMER_TYPE);
 
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    if (!(int) $message->getAuthorId()) {
+                    if (!$message->getAuthorId()) {
                         $message->setAuthorId($user->getId());
                         $this->messageResource->save($message);
                     }
