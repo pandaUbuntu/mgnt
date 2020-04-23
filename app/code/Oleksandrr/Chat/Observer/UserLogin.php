@@ -48,17 +48,29 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         try {
+            $messageCollection = $this->messageCollectionFactory->create();
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+            $customer = $observer->getEvent()->getCustomer();
+
             if ($chatHash = $this->userSession->getChatHash()) {
-                $user = $observer->getEvent()->getCustomer();
-                $messageCollection = $this->messageCollectionFactory->create();
                 $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(1);
 
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    if ((int) $message->getAuthorId() === 0) {
-                        $message->setAuthorId($user->getId());
+                    if (!$message->getAuthorId()) {
+                        $message->setAuthorId($customer->getId());
                         $this->messageResource->save($message);
                     }
+                }
+            } else {
+                /** @var Message $message */
+                $message = $messageCollection
+                    ->addAuthorFilter((int)$customer->getId())
+                    ->setOrder('created_at', 'DESC')
+                    ->setCurPage(1)
+                    ->getFirstItem();
+                if ($message->getChatHash()) {
+                    $this->userSession->setChatHash($message->getChatHash());
                 }
             }
         } catch (\Exception $e) {
