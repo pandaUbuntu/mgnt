@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Oleksandrr\Chat\Observer;
 
+use Magento\Tests\NamingConvention\true\string;
 use Oleksandrr\Chat\Model\Message;
 
 class UserLogin implements \Magento\Framework\Event\ObserverInterface
@@ -48,12 +49,13 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
     /**
      * @param \Magento\Framework\Event\Observer $observer
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(\Magento\Framework\Event\Observer $observer): void
     {
         try {
             $messageCollection = $this->messageCollectionFactory->create();
             /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $observer->getEvent()->getCustomer();
+            $oldChatHash = $this->getLastChatHash((int)$customer->getId());
 
             if ($chatHash = $this->customerSession->getChatHash()) {
                 $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(\Oleksandrr\Chat\Model\Message::CUSTOMER_TYPE);
@@ -62,22 +64,36 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
                 foreach ($messageCollection as $message) {
                     if (!$message->getAuthorId()) {
                         $message->setAuthorId($customer->getId());
+                        $oldChatHash ? $message->setChatHash($oldChatHash) : null;
                         $this->messageResource->save($message);
                     }
                 }
-            } else {
-                /** @var Message $message */
-                $message = $messageCollection
-                    ->addAuthorFilter((int)$customer->getId())
-                    ->setOrder('created_at', 'DESC')
-                    ->setCurPage(1)
-                    ->getFirstItem();
-                if ($message->getChatHash()) {
-                    $this->customerSession->setChatHash($message->getChatHash());
-                }
             }
+
+            $oldChatHash ? $this->customerSession->setChatHash($oldChatHash) : null;
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
+    }
+
+    /**
+     * @param int $customerId
+     * @return string|null
+     */
+    private function getLastChatHash(int $customerId): ?string
+    {
+        $messageCollection = $this->messageCollectionFactory->create();
+
+        /** @var Message $message */
+        $message = $messageCollection
+            ->addAuthorFilter($customerId)
+            ->setOrder('created_at', 'DESC')
+            ->setPageSize(1)
+            ->getFirstItem();
+        if ($message->getChatHash()) {
+            return $message->getChatHash();
+        }
+
+        return null;
     }
 }
