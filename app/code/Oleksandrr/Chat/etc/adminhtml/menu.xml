@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Oleksandrr_Chat::chat"
+             title="Oleksandrr"
+             module="Oleksandrr_Chat"
+             sortOrder="50"
+             parent="Magento_Customer::customer"
+             resource="Oleksandrr_Chat::listing"
+        />
+        <add id="Oleksandrr_Chat::listing"
+             title="Chat"
+             translate="title"
+             module="Oleksandrr_Chat"
+             sortOrder="10"
+             parent="Oleksandrr_Chat::chat"
+             action="oleksandrr_chat/message/index"
+             resource="Oleksandrr_Chat::listing"
+        />
+    </menu>
+</config>
