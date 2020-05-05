@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Oleksandrr\Chat\Observer;
 
+use Magento\Tests\NamingConvention\true\string;
 use Oleksandrr\Chat\Model\Message;
 
 class UserLogin implements \Magento\Framework\Event\ObserverInterface
@@ -10,7 +11,7 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
     /**
      * @var \Magento\Customer\Model\Session
      */
-    private $userSession;
+    private $customerSession;
 
     /**
      * @var \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory
@@ -30,39 +31,69 @@ class UserLogin implements \Magento\Framework\Event\ObserverInterface
     /**
      * @param \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory $messageCollectionFactory
      * @param \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource
-     * @param \Magento\Customer\Model\Session $userSession
      * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory $messageCollectionFactory,
         \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource,
         \Psr\Log\LoggerInterface $logger,
-        \Magento\Customer\Model\Session $userSession
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->messageCollectionFactory = $messageCollectionFactory;
         $this->messageResource = $messageResource;
         $this->logger = $logger;
-        $this->userSession = $userSession;
+        $this->customerSession = $customerSession;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    /**
+     * @param \Magento\Framework\Event\Observer $observer
+     */
+    public function execute(\Magento\Framework\Event\Observer $observer): void
     {
         try {
-            if ($chatHash = $this->userSession->getChatHash()) {
-                $user = $observer->getEvent()->getCustomer();
-                $messageCollection = $this->messageCollectionFactory->create();
-                $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(1);
+            $messageCollection = $this->messageCollectionFactory->create();
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+            $customer = $observer->getEvent()->getCustomer();
+            $oldChatHash = $this->getLastChatHash((int)$customer->getId());
+
+            if ($chatHash = $this->customerSession->getChatHash()) {
+                $messageCollection->addChatHashFilter($chatHash)->addAuthorTypeFilter(\Oleksandrr\Chat\Model\Message::CUSTOMER_TYPE);
 
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    if ((int) $message->getAuthorId() === 0) {
-                        $message->setAuthorId($user->getId());
+                    if (!$message->getAuthorId()) {
+                        $message->setAuthorId($customer->getId());
+                        $oldChatHash ? $message->setChatHash($oldChatHash) : null;
                         $this->messageResource->save($message);
                     }
                 }
             }
+
+            $oldChatHash ? $this->customerSession->setChatHash($oldChatHash) : null;
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
+    }
+
+    /**
+     * @param int $customerId
+     * @return string|null
+     */
+    private function getLastChatHash(int $customerId): ?string
+    {
+        $messageCollection = $this->messageCollectionFactory->create();
+
+        /** @var Message $message */
+        $message = $messageCollection
+            ->addAuthorFilter($customerId)
+            ->setOrder('created_at', 'DESC')
+            ->setPageSize(1)
+            ->getFirstItem();
+        if ($message->getChatHash()) {
+            return $message->getChatHash();
+        }
+
+        return null;
     }
 }

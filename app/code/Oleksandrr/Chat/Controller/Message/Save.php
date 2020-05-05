@@ -33,7 +33,7 @@ class Save extends \Magento\Framework\App\Action\Action implements
     /**
      * @var \Magento\Customer\Model\Session
      */
-    private $userSession;
+    private $customerSession;
 
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -47,7 +47,8 @@ class Save extends \Magento\Framework\App\Action\Action implements
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource,
-     * @param \Magento\Customer\Model\Session $userSession
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -55,7 +56,7 @@ class Save extends \Magento\Framework\App\Action\Action implements
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Psr\Log\LoggerInterface $logger,
         \Oleksandrr\Chat\Model\ResourceModel\Message $messageResource,
-        \Magento\Customer\Model\Session $userSession,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
     ) {
         parent::__construct($context);
@@ -63,7 +64,7 @@ class Save extends \Magento\Framework\App\Action\Action implements
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->messageResource = $messageResource;
-        $this->userSession = $userSession;
+        $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
     }
 
@@ -81,23 +82,22 @@ class Save extends \Magento\Framework\App\Action\Action implements
                 throw new LocalizedException(__('Validation Failed'));
             }
 
-            $userId = (int) $this->userSession->getId();
+            $userId = (int) $this->customerSession->getId();
             $websiteId = (int) $this->storeManager->getWebsite()->getId();
 
             /** @var \Oleksandrr\Chat\Model\Message $message */
             $message = $this->messageFactory->create();
-            $date = new \DateTime();
 
-            if (!$hash = $this->userSession->getChatHash()) {
-                $hash = md5($date->getTimestamp() . $request->getParam('user_message'));
-                $this->userSession->setChatHash($hash);
+            if (!$hash = $this->customerSession->getChatHash()) {
+                $hash = md5(uniqid('', true));
+                $this->customerSession->setChatHash($hash);
             }
 
             $message
-                ->setAuthorId($userId ?: 0)
-                ->setAuthorType(1)
+                ->setAuthorId($userId ?: null)
+                ->setAuthorType(\Oleksandrr\Chat\Model\Message::CUSTOMER_TYPE)
                 ->setWebsiteId($websiteId)
-                ->setMessage($request->getParam('user_message') ?: '')
+                ->setMessage($request->getParam('user_message'))
                 ->setAuthorName('Guest')
                 ->setChatHash($hash);
 
