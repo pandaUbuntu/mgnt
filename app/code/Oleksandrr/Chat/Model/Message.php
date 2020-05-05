@@ -25,6 +25,11 @@ use Magento\Framework\Exception\LocalizedException;
 class Message extends \Magento\Framework\Model\AbstractModel
 {
     /**
+     * Customer type
+     */
+    const CUSTOMER_TYPE = 1;
+
+    /**
      * @inheritDoc
      */
     protected function _construct(): void
@@ -60,7 +65,6 @@ class Message extends \Magento\Framework\Model\AbstractModel
      */
     public function validate(): void
     {
-
         if (!$this->getWebsiteId()) {
             throw new LocalizedException(__('Can\'t save chat message: %s is not set.', 'website_id'));
         }

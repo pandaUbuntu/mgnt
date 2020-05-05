@@ -11,64 +11,60 @@ class Messages extends \Magento\Framework\App\Action\Action implements
     \Magento\Framework\App\Action\HttpGetActionInterface
 {
     /**
-     * @var \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory
+     * @var \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory $messageCollectionFactory
      */
     private $messageCollectionFactory;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface $logger
      */
     private $logger;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Model\Session $customerSession
      */
-    private $userSession;
+    private $customerSession;
 
     /**
      * Save constructor.
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory $messageCollectionFactory
      * @param \Psr\Log\LoggerInterface $logger
-     * @param \Magento\Customer\Model\Session $userSession
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Oleksandrr\Chat\Model\ResourceModel\Message\CollectionFactory $messageCollectionFactory,
         \Psr\Log\LoggerInterface $logger,
-        \Magento\Customer\Model\Session $userSession
+        \Magento\Customer\Model\Session $customerSession
     ) {
         parent::__construct($context);
         $this->messageCollectionFactory = $messageCollectionFactory;
         $this->logger = $logger;
-        $this->userSession = $userSession;
+        $this->customerSession = $customerSession;
     }
 
     public function execute()
     {
-        $collection = [];
+        $messageList = [];
         $message = '';
 
         try {
-            if ($this->userSession->isLoggedIn()) {
-                $messageCollection = $this->messageCollectionFactory->create()->addAuthorFilter((int) $this->userSession->getId());
-            } else {
-                if ($chatHash = $this->userSession->getChatHash()) {
-                    $messageCollection = $this->messageCollectionFactory->create()->addChatHashFilter($chatHash);
-                }
-            }
+            $chatHash = $this->customerSession->getChatHash();
 
-            if (isset($messageCollection)) {
+            if ($chatHash) {
+                $messageCollection = $this->messageCollectionFactory->create()->addChatHashFilter($chatHash);
+
                 /** @var Message $message */
                 foreach ($messageCollection as $message) {
-                    $collection[] = [
+                    $messageList[] = [
                         'author_name' => $message->getAuthorName(),
                         'message' => $message->getMessage(),
                         'created_at' => $message->getCreatedAt(),
                     ];
                 }
 
-                $message = 'Post count: ' . count($collection);
+                $message = 'Message count: ' . count($messageList);
             }
         } catch (\Exception $e) {
             $this->logger->critical($e);
@@ -78,7 +74,7 @@ class Messages extends \Magento\Framework\App\Action\Action implements
         /** @var JsonResult $response */
         $response = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         $response->setData([
-            'list' => $collection,
+            'list' => $messageList,
             'message' => $message,
         ]);
 
